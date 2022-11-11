@@ -18,6 +18,9 @@ import webbrowser
 import operator
 from pkg_resources import iter_entry_points
 
+import requests
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -49,7 +52,8 @@ def annotated(**kwargs):
 
 @annotated(priority=0)
 def webbrowser_tab(url):
-    return webbrowser.open_new_tab(url)
+    requests.post('http://localhost:31415/show_url', data={'url': url})
+
 
 @annotated(priority=-10)
 def webbrowser_window(url):
@@ -75,7 +79,7 @@ def view(url):
             return viewer(url)
 
         except Exception as exc:
-            logger.info('Opening the webapp URL with %r failed with %r',
+            logger.error('Opening the webapp URL with %r failed with %r, please check if the vscode-dwave extension is installed and activated.',
                         viewer.__name__, exc)
 
     return False
