@@ -52,12 +52,9 @@ def annotated(**kwargs):
 
 @annotated(priority=0)
 def webbrowser_tab(url):
-    requests.post('http://localhost:31415/show_url', data={'url': url})
+    logging.info(f"Opening response URL: ${url}")
+    requests.post('http://localhost:31415/show_url', json={'url': url})
 
-
-@annotated(priority=-10)
-def webbrowser_window(url):
-    return webbrowser.open_new(url)
 
 
 def prioritized_viewers():
